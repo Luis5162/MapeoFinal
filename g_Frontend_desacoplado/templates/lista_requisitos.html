@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Requisitos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body class="p-4">
+    <div class="container">
+        <h2 class="mb-4">Requisitos Registrados</h2>
+        <a href="/requisitos/nuevo" class="btn btn-primary mb-3">Crear Requisito</a>
+        <a href="/" class="btn btn-secondary mb-3">Volver</a>
+
+        <table class="table table-bordered table-striped shadow">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Prioridad</th>
+                    <th>Estado</th>
+                    <th>ID Proyecto</th>
+                    <th>Acciones</th> </tr>
+            </thead>
+            <tbody>
+                {% for r in lista %}
+                <tr>
+                    <td>{{ r.id }}</td>
+                    <td>{{ r.nombre }}</td>
+                    
+                    <td>{{ r.prioridad or r.Prioridad }}</td>
+                    <td>{{ r.estado or r.Estado }}</td>
+                    
+                    <td>
+                        <span class="badge bg-warning text-dark">
+                            Proy ID: {{ r.idProyecto }}
+                        </span>
+                    </td>
+                    
+                    <td>
+                        <a href="/requisitos/editar/{{ r.id }}" class="btn btn-warning btn-sm">
+                            Editar
+                        </a>
+                        <a href="/requisitos/eliminar/{{ r.id }}" 
+                           class="btn btn-danger btn-sm"
+                           onclick="return confirm('¿Estás seguro de eliminar este requisito?')">
+                            Borrar
+                        </a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="6" class="text-center">No hay datos.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

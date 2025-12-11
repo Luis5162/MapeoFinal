@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Diagrama</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="p-4">
+    <div class="container" style="max-width: 600px;">
+        <div class="card shadow">
+            <div class="card-header bg-info text-dark">
+                <h3 class="card-title mb-0">Editar Diagrama</h3>
+            </div>
+            <div class="card-body">
+
+                <form method="POST" action="/diagramas/editar/{{ diagrama.idDiagrama }}">
+
+                    <div class="mb-3">
+                        <label class="form-label">ID Diagrama</label>
+                        <input type="text" class="form-control bg-light" value="{{ diagrama.idDiagrama }}" readonly>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Nombre del Diagrama</label>
+                        <input type="text" name="nombre" class="form-control" value="{{ diagrama.nombre }}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Creado Por</label>
+                        <input type="text" name="creadoPor" class="form-control" value="{{ diagrama.creadoPor }}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Tipo de Diagrama</label>
+                        <select name="tipo" class="form-select" required>
+                            <option value="">Seleccione...</option>
+
+                            <option value="clases" {% if diagrama.tipoDiagrama=='clases' %}selected{% endif %}>Clases
+                            </option>
+                            <option value="secuencia" {% if diagrama.tipoDiagrama=='secuencia' %}selected{% endif %}>
+                                Secuencia</option>
+                            <option value="actividad" {% if diagrama.tipoDiagrama=='actividad' %}selected{% endif %}>
+                                Actividad</option>
+                            <option value="estados" {% if diagrama.tipoDiagrama=='estados' %}selected{% endif %}>Estados
+                            </option>
+
+                            <option value="casos_de_uso" {% if diagrama.tipoDiagrama=='casos_de_uso' %}selected{% endif
+                                %}>Casos de Uso</option>
+
+                            <option value="componentes" {% if diagrama.tipoDiagrama=='componentes' %}selected{% endif
+                                %}>Componentes</option>
+                            <option value="despliegue" {% if diagrama.tipoDiagrama=='despliegue' %}selected{% endif %}>
+                                Despliegue</option>
+                            <option value="paquetes" {% if diagrama.tipoDiagrama=='paquetes' %}selected{% endif %}>
+                                Paquetes</option>
+                            <option value="arquitectura" {% if diagrama.tipoDiagrama=='arquitectura' %}selected{% endif
+                                %}>Arquitectura</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Estado</label>
+                        <select name="estado" class="form-select" required>
+                            <option value="borrador" {% if diagrama.estado=='borrador' %}selected{% endif %}>Borrador
+                            </option>
+                            <option value="revision" {% if diagrama.estado=='revision' %}selected{% endif %}>En Revisión
+                            </option>
+                            <option value="aprobado" {% if diagrama.estado=='aprobado' %}selected{% endif %}>Aprobado
+                            </option>
+                            <option value="finalizado" {% if diagrama.estado=='finalizado' %}selected{% endif %}>
+                                Finalizado</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Ruta del Archivo (URL/Path)</label>
+                        <input type="text" name="archivoRuta" class="form-control" value="{{ diagrama.archivoRuta }}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Proyecto Asociado</label>
+                        <select name="proyecto_id" class="form-select" required>
+                            <option value="">Seleccione Proyecto...</option>
+                            {% for p in lista_proyectos %}
+                            <option value="{{ p.idProyecto }}" {% if diagrama.proyecto and
+                                p.idProyecto==diagrama.proyecto.idProyecto %}selected{% endif %}>
+                                {{ p.nombre }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-info">Guardar Cambios</button>
+                        <a href="/diagramas" class="btn btn-secondary">Cancelar</a>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
