@@ -71,13 +71,29 @@ def ver_empresas():
 @app.route('/empresas/nueva', methods=['GET', 'POST'])
 def crear_empresa():
     form = FormularioEmpresa()
+    
     if form.validate_on_submit():
-        json_data = { "nombre": form.nombre.data, "activo": form.activo.data }
+        # Aquí es donde "cachamos" los nuevos datos del formulario
+        json_data = { 
+            "nombre": form.nombre.data,
+            
+            # --- AGREGAMOS LOS NUEVOS ---
+            "direccion": form.direccion.data,
+            "correo": form.correo.data,
+            "telefono": form.telefono.data,
+            # ----------------------------
+            
+            "activo": form.activo.data 
+        }
+        
         try:
+            # Enviamos todo el paquete a Java
             requests.post(f"{JAVA_API_URL}/empresas", json=json_data)
-            return redirect(url_for('ver_empresas'))
+            return redirect(url_for('ver_empresas')) # Ojo: confirma que tu ruta se llame así
         except:
             flash("Error al crear empresa")
+            
+    # Si usas un form_generico que itera solo, ¡NO necesitas tocar el HTML!
     return render_template('form_generico.html', form=form, titulo="Nueva Empresa")
 
 @app.route('/empresas/editar/<id>', methods=['GET', 'POST'])

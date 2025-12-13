@@ -1,12 +1,20 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, TextAreaField, BooleanField, DateField, IntegerField, SelectField
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired 
 
 class FormularioEmpresa(FlaskForm):
-    nombre = StringField('Nombre de la Empresa', validators=[DataRequired()])
-    # Agregamos el checkbox para 'activo'
-    activo = BooleanField('¿Está Activa?')
-    enviar = SubmitField('Guardar Empresa')
+    # El nombre ya lo tenías
+    nombre = StringField('Nombre', validators=[DataRequired()])
+
+    # --- AGREGA ESTOS 3 ---
+    direccion = StringField('Dirección') 
+    correo = StringField('Correo Electrónico') # Opcional: validators=[Email()] si quieres validar @
+    telefono = StringField('Teléfono')
+    # ----------------------
+
+    # Estos ya los tenías
+    activo = BooleanField('Activo', default=True)
+    enviar = SubmitField('Guardar')
 
 class FormularioProyecto(FlaskForm):
     nombre = StringField('Nombre del Proyecto', validators=[DataRequired()])
