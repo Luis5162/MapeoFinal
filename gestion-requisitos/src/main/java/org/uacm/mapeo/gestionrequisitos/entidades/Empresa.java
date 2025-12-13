@@ -1,6 +1,7 @@
 package org.uacm.mapeo.gestionrequisitos.entidades;
 
 import jakarta.persistence .*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,6 +20,15 @@ import lombok.NoArgsConstructor;
 
         @NotBlank(message = "El nombre de la empresa es obligatorio")
         private String nombre;
+
+    @Column(name = "direccion")
+    private String direccion;
+    @Email
+    @Column(name = "correo")
+    private String correo;
+
+    @Column(name = "telefono")
+    private String telefono;
 
         private Boolean activo = true;
     }

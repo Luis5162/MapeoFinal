@@ -82,32 +82,27 @@ def crear_empresa():
 
 @app.route('/empresas/editar/<id>', methods=['GET', 'POST'])
 def editar_empresa(id):
-    # URL de tu API Java
     url_api = f'http://localhost:8080/api/empresas/{id}'
 
     if request.method == 'POST':
-        # --- PARTE 2: GUARDAR LOS CAMBIOS ---
-        
-        # Obtenemos los datos del HTML
-        nombre = request.form['nombre']
-        activo = 'activo' in request.form # Checkbox: True si está, False si no
-        
-        # Preparamos el JSON para Java
+        # --- ACTUALIZAMOS EL JSON CON LOS NUEVOS CAMPOS ---
         datos_actualizar = {
             "idEmpresa": id,
-            "nombre": nombre,
-            "activo": activo
+            "nombre": request.form['nombre'],
+            "direccion": request.form['direccion'],
+            "correo": request.form['correo'],
+            "telefono": request.form['telefono'],
+            
+            "activo": 'activo' in request.form 
         }
         
-        # Enviamos el PUT a Java
         headers = {'Content-Type': 'application/json'}
         respuesta = requests.put(url_api, json=datos_actualizar, headers=headers)
         
         if respuesta.status_code == 200 or respuesta.status_code == 204:
-            return redirect('/empresas') # Éxito, volver a la lista
+            return redirect('/empresas')
         else:
             return f"Error al actualizar: {respuesta.text}"
-
     # --- PARTE 1: MOSTRAR EL FORMULARIO ---
     
     # Pedimos los datos actuales a Java (GET)
