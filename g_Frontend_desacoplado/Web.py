@@ -319,39 +319,37 @@ def eliminar_proyecto(id):
 
 # RUTA REQUISITOS
 @app.route('/requisitos')
-def ver_requisitos():
+def listar_requisitos():
+    # 1. Obtener número de página de la URL (si no hay, es 0)
+    pagina = request.args.get('page', default=0, type=int)
+    tamanio = 5
+    
+    # 2. Pedir a Java la página específica
+    url_api = f'http://localhost:8080/api/requisitos?page={pagina}&size={tamanio}'
+    
     try:
-        print("--- CONSULTANDO REQUISITOS ---")
-        resp = requests.get(f"{JAVA_API_URL}/requisitos")
-        data = resp.json()
-        
-        # DEBUG: Imprimir qué claves nos manda Java
-        if "_embedded" in data:
-            print("CLAVES ENCONTRADAS:", data["_embedded"].keys())
+        respuesta = requests.get(url_api)
+        if respuesta.status_code == 200:
+            datos = respuesta.json()
+            
+            # --- PROTECCIÓN ANTI-ERRORES ---
+            # Si Java por error manda una lista simple (Corchetes []), la convertimos a formato Paginación
+            if isinstance(datos, list):
+                print(" AVISO: Java envió LISTA, simulando paginación...")
+                paginacion = {
+                    "content": datos,
+                    "first": True, "last": True, "number": 0, "totalPages": 1
+                }
+            else:
+                # Si Java mandó el objeto correcto (Llaves {}), lo usamos directo
+                paginacion = datos
         else:
-            print("JAVA NO DEVOLVIÓ DATOS EMBEBIDOS (Lista vacía o error)")
-            
-        lista = []
-        
-        # Spring Data REST a veces usa "requisitoes" o "requisitos"
-        # Este código busca cualquiera de los dos
-        if "_embedded" in data:
-            # Intentamos sacar la lista con el nombre correcto
-            items = data["_embedded"].get("requisitos") or data["_embedded"].get("requisitoes") or []
-            
-            for item in items:
-                item["id"] = obtener_id_de_url(item["_links"]["self"]["href"])
-                
-                if "proyecto" in item["_links"]:
-                    item["proyecto_id"] = obtener_id_de_url(item["_links"]["proyecto"]["href"])
-                else:
-                    item["proyecto_id"] = "N/A"
-                lista.append(item)
-                
-        return render_template('lista_requisitos.html', lista=lista)
+            paginacion = {"content": [], "totalPages": 0, "number": 0}
     except Exception as e:
-        print(f"Error Requisitos: {e}")
-        return render_template('lista_requisitos.html', lista=[])
+        print(f"Error: {e}")
+        paginacion = {"content": [], "totalPages": 0, "number": 0}
+
+    return render_template('lista_requisitos.html', paginacion=paginacion)
 
 @app.route('/requisitos/nuevo', methods=['GET', 'POST'])
 def crear_requisito():
@@ -444,24 +442,36 @@ def eliminar_requisito(id):
 
 # RUTA DIAGRAMAS
 @app.route('/diagramas')
-def ver_diagramas():
+def listar_diagramas():
+    # 1. Obtener número de página
+    pagina = request.args.get('page', default=0, type=int)
+    tamanio = 5
+    
+    # 2. Pedir a Java la página
+    url_api = f'http://localhost:8080/api/diagramas?page={pagina}&size={tamanio}'
+    
     try:
-        resp = requests.get(f"{JAVA_API_URL}/diagramas")
-        data = resp.json()
-        lista = []
-        
-        if "_embedded" in data:
-            for item in data["_embedded"]["diagramas"]:
-                item["id"] = obtener_id_de_url(item["_links"]["self"]["href"])
-                if "proyecto" in item["_links"]:
-                    item["proyecto_id"] = obtener_id_de_url(item["_links"]["proyecto"]["href"])
-                else:
-                    item["proyecto_id"] = "N/A"
-                lista.append(item)
-                
-        return render_template('lista_diagramas.html', lista=lista)
+        respuesta = requests.get(url_api)
+        if respuesta.status_code == 200:
+            datos = respuesta.json()
+            
+            # Protección por si Java sigue enviando lista plana (error común)
+            if isinstance(datos, list):
+                datos_paginados = {
+                    "content": datos,
+                    "first": True, 
+                    "last": True, 
+                    "number": 0, 
+                    "totalPages": 1
+                }
+            else:
+                datos_paginados = datos
+        else:
+            datos_paginados = {"content": [], "totalPages": 0, "number": 0}
     except:
-        return render_template('lista_diagramas.html', lista=[])
+        datos_paginados = {"content": [], "totalPages": 0, "number": 0}
+
+    return render_template('lista_diagramas.html', paginacion=datos_paginados)
 
 @app.route('/diagramas/nuevo', methods=['GET', 'POST'])
 def crear_diagrama():

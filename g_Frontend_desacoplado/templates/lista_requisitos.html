@@ -23,27 +23,31 @@
                     <th>Acciones</th> </tr>
             </thead>
             <tbody>
-                {% for r in lista %}
+                {% for r in paginacion.content %}
                 <tr>
-                    <td>{{ r.id }}</td>
+                    <td>{{ r.idRequisito }}</td>
                     <td>{{ r.nombre }}</td>
-                    
+
                     <td>{{ r.prioridad or r.Prioridad }}</td>
                     <td>{{ r.estado or r.Estado }}</td>
-                    
+
                     <td>
-                        <span class="badge bg-warning text-dark">
-                            Proy ID: {{ r.idProyecto }}
-                        </span>
+                        
+                        {{ r.proyecto.nombre }}
+                        
+                        
                     </td>
                     
+
+
+
+
                     <td>
-                        <a href="/requisitos/editar/{{ r.id }}" class="btn btn-warning btn-sm">
+                        <a href="/requisitos/editar/{{ r.idRequisito }}" class="btn btn-warning btn-sm">
                             Editar
                         </a>
-                        <a href="/requisitos/eliminar/{{ r.id }}" 
-                           class="btn btn-danger btn-sm"
-                           onclick="return confirm('¿Estás seguro de eliminar este requisito?')">
+                        <a href="/requisitos/eliminar/{{ r.idRequisito }}" class="btn btn-danger btn-sm"
+                            onclick="return confirm('¿Estás seguro de eliminar este requisito?')">
                             Borrar
                         </a>
                     </td>
@@ -55,6 +59,25 @@
                 {% endfor %}
             </tbody>
         </table>
+        <nav aria-label="Paginación" class="mt-3">
+            <ul class="pagination justify-content-center">
+
+                <li class="page-item {% if paginacion.first %}disabled{% endif %}">
+                    <a class="page-link" href="/requisitos?page={{ paginacion.number - 1 }}">Anterior</a>
+                </li>
+
+                <li class="page-item disabled">
+                    <span class="page-link">
+                        Página {{ paginacion.number + 1 }} de {{ paginacion.totalPages }}
+                    </span>
+                </li>
+
+                <li class="page-item {% if paginacion.last %}disabled{% endif %}">
+                    <a class="page-link" href="/requisitos?page={{ paginacion.number + 1 }}">Siguiente</a>
+                </li>
+
+            </ul>
+        </nav>
     </div>
 </body>
 </html>

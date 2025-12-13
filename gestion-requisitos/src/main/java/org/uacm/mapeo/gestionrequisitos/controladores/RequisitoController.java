@@ -11,6 +11,7 @@ import org.uacm.mapeo.gestionrequisitos.entidades.Requisito;
 import org.uacm.mapeo.gestionrequisitos.entidades.Proyecto;
 import org.uacm.mapeo.gestionrequisitos.Repositorios.RequisitoRepository;
 import org.uacm.mapeo.gestionrequisitos.Repositorios.ProyectoRepository;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,46 +29,12 @@ public class RequisitoController {
 
     // 1. LISTAR TODOS (sin paginación - para compatibilidad)
     @GetMapping
-    public List<Requisito> listar() {
-        return requisitoRepository.findAll();
+    public Page<Requisito> listar(@RequestParam(defaultValue = "0") int page,
+                                  @RequestParam(defaultValue = "5") int size) {
+        return requisitoRepository.findAll(PageRequest.of(page, size));
     }
 
-    // 2. LISTAR PAGINADO (nuevo endpoint con paginación)
-    @GetMapping("/paginado")
-    public Page<Requisito> listarPaginado(
-            @PageableDefault(size = 10, sort = "nombre", direction = Sort.Direction.ASC) Pageable pageable) {
-        return requisitoRepository.findAll(pageable);
-    }
-
-    // 3. BUSCAR PAGINADO POR NOMBRE (con paginación)
-    @GetMapping("/buscar")
-    public Page<Requisito> buscarPorNombre(
-            @RequestParam String nombre,
-            @PageableDefault(size = 10, sort = "nombre") Pageable pageable) {
-        return requisitoRepository.findByNombreContaining(nombre, pageable);
-    }
-
-    // 4. LISTAR POR PROYECTO (con paginación opcional)
-    @GetMapping("/proyecto/{idProyecto}")
-    public ResponseEntity<?> listarPorProyecto(
-            @PathVariable Integer idProyecto,
-            @RequestParam(required = false) Boolean paginado,
-            @PageableDefault(size = 10, sort = "nombre") Pageable pageable) {
-
-        if (paginado != null && paginado) {
-            // Obtener página de requisitos por proyecto
-            // Nota: Necesitarías un método en el repositorio que devuelva Page en lugar de List
-            // Por ahora usaré un ejemplo con findAll y filtrar, pero sería mejor crear un método específico
-            Page<Requisito> page = requisitoRepository.findAll(pageable);
-            return ResponseEntity.ok(page);
-        } else {
-            // Lista simple (sin paginación)
-            List<Requisito> requisitos = requisitoRepository.findByProyectoIdProyecto(idProyecto);
-            return ResponseEntity.ok(requisitos);
-        }
-    }
-
-    // 5. BUSCAR POR ID
+    // 2. BUSCAR POR ID (Necesario para que cargue el formulario de editar)
     @GetMapping("/{id}")
     public ResponseEntity<Requisito> obtenerPorId(@PathVariable Integer id) {
         Optional<Requisito> req = requisitoRepository.findById(id);
@@ -78,9 +45,10 @@ public class RequisitoController {
         }
     }
 
-    // 6. GUARDAR NUEVO
+    // 3. GUARDAR NUEVO (POST)
     @PostMapping
     public Requisito guardar(@RequestBody Requisito requisito) {
+        // Lógica simple para asignar proyecto si viene solo el ID
         if (requisito.getProyecto() != null && requisito.getProyecto().getIdProyecto() != null) {
             Optional<Proyecto> p = proyectoRepository.findById(requisito.getProyecto().getIdProyecto());
             p.ifPresent(requisito::setProyecto);
@@ -88,7 +56,7 @@ public class RequisitoController {
         return requisitoRepository.save(requisito);
     }
 
-    // 7. ACTUALIZAR / EDITAR
+    // 4. ACTUALIZAR / EDITAR (PUT) - ¡ESTO ES LO QUE TE FALTABA!
     @PutMapping("/{id}")
     public ResponseEntity<Requisito> actualizar(@PathVariable Integer id, @RequestBody Requisito datosNuevos) {
         Optional<Requisito> reqExistente = requisitoRepository.findById(id);
@@ -96,6 +64,7 @@ public class RequisitoController {
         if (reqExistente.isPresent()) {
             Requisito r = reqExistente.get();
 
+            // Actualizamos los datos
             r.setCodigo(datosNuevos.getCodigo());
             r.setNombre(datosNuevos.getNombre());
             r.setDescripcion(datosNuevos.getDescripcion());
@@ -103,6 +72,7 @@ public class RequisitoController {
             r.setPrioridad(datosNuevos.getPrioridad());
             r.setEstado(datosNuevos.getEstado());
 
+            // Actualizamos la relación con Proyecto
             if (datosNuevos.getProyecto() != null && datosNuevos.getProyecto().getIdProyecto() != null) {
                 Optional<Proyecto> p = proyectoRepository.findById(datosNuevos.getProyecto().getIdProyecto());
                 if (p.isPresent()) {
@@ -117,7 +87,7 @@ public class RequisitoController {
         }
     }
 
-    // 8. ELIMINAR
+    // 5. ELIMINAR
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Integer id) {
         if (requisitoRepository.existsById(id)) {

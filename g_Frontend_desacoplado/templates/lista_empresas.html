@@ -27,7 +27,7 @@
             <tbody>
                 {% for e in paginacion.content %}
                 <tr>
-                    <td>{{ e.id }}</td>
+                    <td>{{ e.idEmpresa }}</td>
                     <td>{{ e.nombre }}</td>
 
                     <td>
@@ -39,11 +39,11 @@
                     </td>
 
                     <td>
-                        <a href="/empresas/editar/{{ e.id }}" class="btn btn-warning btn-sm">
+                        <a href="/empresas/editar/{{ e.idEmpresa }}" class="btn btn-warning btn-sm">
                             Editar
                         </a>
 
-                        <a href="/empresas/eliminar/{{ e.id }}" 
+                        <a href="/empresas/eliminar/{{ e.idEmpresa }}" 
                            class="btn btn-danger btn-sm"
                            onclick="return confirm('¿Estás seguro de eliminar esta empresa?')">
                             Borrar

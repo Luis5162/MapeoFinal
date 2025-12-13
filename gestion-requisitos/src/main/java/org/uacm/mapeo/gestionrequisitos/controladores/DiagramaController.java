@@ -6,6 +6,8 @@ import org.uacm.mapeo.gestionrequisitos.entidades.Diagrama;
 import org.uacm.mapeo.gestionrequisitos.entidades.Proyecto;
 import org.uacm.mapeo.gestionrequisitos.Repositorios.DiagramaRepository;
 import org.uacm.mapeo.gestionrequisitos.Repositorios.ProyectoRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,8 +25,9 @@ public class DiagramaController {
 
     // 1. LISTAR TODOS
     @GetMapping
-    public List<Diagrama> listar() {
-        return diagramaRepository.findAll();
+    public Page<Diagrama> listar(@RequestParam(defaultValue = "0") int page,
+                                 @RequestParam(defaultValue = "5") int size) {
+        return diagramaRepository.findAll(PageRequest.of(page, size));
     }
 
     // 2. BUSCAR POR ID (GET) - Para llenar el formulario de editar
