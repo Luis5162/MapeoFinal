@@ -4,13 +4,285 @@
     <meta charset="UTF-8">
     <title>Lista de Requisitos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --color-primary: #2a1142;
+            --color-dark: #1a0b29;
+            --color-accent1: #6eff8e;
+            --color-accent2: #a0ffb8;
+            --color-accent3: #ff8c42;
+            --color-accent4: #ff4242;
+            --color-blue: #4287ff;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--color-dark) 0%, var(--color-primary) 100%);
+            color: white;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 2rem 0;
+        }
+        
+        .container {
+            background: rgba(42, 17, 66, 0.85);
+            border-radius: 15px;
+            padding: 2rem;
+            border: 1px solid rgba(110, 255, 142, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+        
+        h2 {
+            color: var(--color-accent1);
+            font-weight: 700;
+            border-bottom: 3px solid var(--color-accent3);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .btn-primary {
+            background: var(--color-accent1);
+            border-color: var(--color-accent1);
+            color: #2a1142;
+            font-weight: 600;
+        }
+        
+        .btn-primary:hover {
+            background: var(--color-accent2);
+            border-color: var(--color-accent2);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(110, 255, 142, 0.3);
+            color: var(--color-accent2);
+            font-weight: 600;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: var(--color-accent1);
+        }
+        
+        .btn-warning {
+            background: var(--color-accent3);
+            border-color: var(--color-accent3);
+            color: #2a1142;
+            font-weight: 600;
+        }
+        
+        .btn-warning:hover {
+            background: #ff9f5e;
+            border-color: #ff9f5e;
+        }
+        
+        .btn-danger {
+            background: var(--color-accent4);
+            border-color: var(--color-accent4);
+            font-weight: 600;
+        }
+        
+        .btn-danger:hover {
+            background: #ff6b6b;
+            border-color: #ff6b6b;
+        }
+        
+        .table {
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+        }
+        
+        .table-dark {
+            background: rgba(26, 11, 41, 0.8) !important;
+        }
+        
+        .table-dark th {
+            color: var(--color-accent1);
+            border-color: rgba(110, 255, 142, 0.2);
+        }
+        
+        .table-striped > tbody > tr:nth-of-type(odd) {
+            background-color: rgba(110, 255, 142, 0.05);
+        }
+        
+        .table-bordered {
+            border-color: rgba(110, 255, 142, 0.2);
+        }
+        
+        .table-bordered th,
+        .table-bordered td {
+            border-color: rgba(110, 255, 142, 0.1);
+        }
+        
+        /* Badges para prioridad y estado */
+        .badge-prioridad {
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+        
+        .prioridad-alta {
+            background: linear-gradient(135deg, var(--color-accent4), #ff6b6b);
+            color: white;
+        }
+        
+        .prioridad-media {
+            background: linear-gradient(135deg, var(--color-accent3), #ff9f5e);
+            color: #2a1142;
+        }
+        
+        .prioridad-baja {
+            background: linear-gradient(135deg, var(--color-accent1), #4cdb6d);
+            color: #2a1142;
+        }
+        
+        .badge-estado {
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+        
+        .estado-activo {
+            background: linear-gradient(135deg, var(--color-accent1), #4cdb6d);
+            color: #2a1142;
+        }
+        
+        .estado-pendiente {
+            background: linear-gradient(135deg, var(--color-accent3), #ff9f5e);
+            color: #2a1142;
+        }
+        
+        .estado-finalizado {
+            background: linear-gradient(135deg, var(--color-blue), #6b8cff);
+            color: white;
+        }
+        
+        .proyecto-badge {
+            background: rgba(66, 135, 255, 0.15);
+            border: 1px solid rgba(66, 135, 255, 0.3);
+            color: var(--color-blue);
+            padding: 0.3rem 0.6rem;
+            border-radius: 8px;
+            font-weight: 500;
+            display: inline-block;
+        }
+        
+        /* Efectos de hover para la tabla */
+        .table tbody tr {
+            transition: all 0.3s ease;
+        }
+
+        .table tbody tr:hover {
+            background-color: rgba(110, 255, 142, 0.15) !important;
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(110, 255, 142, 0.2);
+        }
+
+        .table tbody td:first-child {
+            position: relative;
+            font-weight: 700;
+            color: var(--color-accent2) !important;
+            transition: all 0.3s ease;
+            text-shadow: 0 0 5px rgba(110, 255, 142, 0.3);
+        }
+
+        .table tbody tr:hover td:first-child {
+            color: var(--color-accent1) !important;
+            text-shadow: 0 0 15px rgba(110, 255, 142, 0.8);
+            font-size: 1.05em;
+            letter-spacing: 1px;
+        }
+
+        .table tbody tr:hover td:first-child::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, 
+                        rgba(110, 255, 142, 0.2) 0%, 
+                        transparent 70%);
+            z-index: -1;
+            border-radius: 5px;
+        }
+        
+        .pagination .page-link {
+            background-color: rgba(26, 11, 41, 0.7);
+            border-color: rgba(110, 255, 142, 0.2);
+            color: var(--color-accent2);
+        }
+        
+        .pagination .page-link:hover {
+            background-color: rgba(110, 255, 142, 0.1);
+            border-color: var(--color-accent1);
+            color: var(--color-accent1);
+        }
+        
+        .pagination .disabled .page-link {
+            background-color: rgba(26, 11, 41, 0.3);
+            color: rgba(110, 255, 142, 0.3);
+        }
+        
+        .page-item.active .page-link {
+            background-color: var(--color-accent1);
+            border-color: var(--color-accent1);
+            color: #2a1142;
+            font-weight: 600;
+        }
+        
+        /* Animaciones para las filas */
+        @keyframes fadeInRow {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .table tbody tr {
+            animation: fadeInRow 0.5s ease forwards;
+            opacity: 0;
+        }
+
+        .table tbody tr:nth-child(1) { animation-delay: 0.1s; }
+        .table tbody tr:nth-child(2) { animation-delay: 0.2s; }
+        .table tbody tr:nth-child(3) { animation-delay: 0.3s; }
+        .table tbody tr:nth-child(4) { animation-delay: 0.4s; }
+        .table tbody tr:nth-child(5) { animation-delay: 0.5s; }
+        .table tbody tr:nth-child(6) { animation-delay: 0.6s; }
+        .table tbody tr:nth-child(7) { animation-delay: 0.7s; }
+        .table tbody tr:nth-child(8) { animation-delay: 0.8s; }
+        .table tbody tr:nth-child(9) { animation-delay: 0.9s; }
+        .table tbody tr:nth-child(10) { animation-delay: 1s; }
+        
+        .empty-state {
+            color: var(--color-accent2);
+            text-align: center;
+            padding: 3rem;
+        }
+        
+        .empty-state i {
+            font-size: 3rem;
+            opacity: 0.5;
+            margin-bottom: 1rem;
+        }
+    </style>
 </head>
 <body class="p-4">
     <div class="container">
         <h2 class="mb-4">Requisitos Registrados</h2>
-        <a href="/requisitos/nuevo" class="btn btn-primary mb-3">Crear Requisito</a>
-        <a href="/" class="btn btn-secondary mb-3">Volver</a>
+        <a href="/requisitos/nuevo" class="btn btn-primary mb-3">
+            <i class="fas fa-plus me-2"></i> Crear Requisito
+        </a>
+        <a href="/" class="btn btn-secondary mb-3">
+            <i class="fas fa-arrow-left me-2"></i> Volver
+        </a>
 
         <table class="table table-bordered table-striped shadow">
             <thead class="table-dark">
@@ -19,8 +291,9 @@
                     <th>Nombre</th>
                     <th>Prioridad</th>
                     <th>Estado</th>
-                    <th>ID Proyecto</th>
-                    <th>Acciones</th> </tr>
+                    <th>Proyecto</th>
+                    <th>Acciones</th>
+                </tr>
             </thead>
             <tbody>
                 {% for r in paginacion.content %}
@@ -28,56 +301,143 @@
                     <td>{{ r.idRequisito }}</td>
                     <td>{{ r.nombre }}</td>
 
-                    <td>{{ r.prioridad or r.Prioridad }}</td>
-                    <td>{{ r.estado or r.Estado }}</td>
-
                     <td>
-                        
-                        {{ r.proyecto.nombre }}
-                        
-                        
+                        {% set prioridad = (r.prioridad or r.Prioridad or '').lower() %}
+                        {% if prioridad == 'alta' %}
+                            <span class="badge-prioridad prioridad-alta">
+                                <i class="fas fa-exclamation-circle me-1"></i> Alta
+                            </span>
+                        {% elif prioridad == 'media' %}
+                            <span class="badge-prioridad prioridad-media">
+                                <i class="fas fa-exclamation-triangle me-1"></i> Media
+                            </span>
+                        {% elif prioridad == 'baja' %}
+                            <span class="badge-prioridad prioridad-baja">
+                                <i class="fas fa-check-circle me-1"></i> Baja
+                            </span>
+                        {% else %}
+                            <span class="badge-prioridad" style="background: rgba(255,255,255,0.1); color: white;">
+                                {{ prioridad|title }}
+                            </span>
+                        {% endif %}
                     </td>
                     
-
-
-
+                    <td>
+                        {% set estado = (r.estado or r.Estado or '').lower() %}
+                        {% if estado == 'activo' %}
+                            <span class="badge-estado estado-activo">
+                                <i class="fas fa-play-circle me-1"></i> Activo
+                            </span>
+                        {% elif estado == 'pendiente' %}
+                            <span class="badge-estado estado-pendiente">
+                                <i class="fas fa-pause-circle me-1"></i> Pendiente
+                            </span>
+                        {% elif estado == 'finalizado' %}
+                            <span class="badge-estado estado-finalizado">
+                                <i class="fas fa-check-circle me-1"></i> Finalizado
+                            </span>
+                        {% else %}
+                            <span class="badge-estado" style="background: rgba(255,255,255,0.1); color: white;">
+                                {{ estado|title }}
+                            </span>
+                        {% endif %}
+                    </td>
 
                     <td>
-                        <a href="/requisitos/editar/{{ r.idRequisito }}" class="btn btn-warning btn-sm">
-                            Editar
-                        </a>
-                        <a href="/requisitos/eliminar/{{ r.idRequisito }}" class="btn btn-danger btn-sm"
-                            onclick="return confirm('¿Estás seguro de eliminar este requisito?')">
-                            Borrar
-                        </a>
+                        {% if r.proyecto %}
+                            <span class="proyecto-badge">
+                                <i class="fas fa-project-diagram me-1"></i>
+                                {{ r.proyecto.nombre }}
+                            </span>
+                        {% else %}
+                            <span class="text-muted" style="color: var(--color-accent2) !important;">
+                                <i class="fas fa-times-circle me-1"></i> Sin proyecto
+                            </span>
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        <div class="d-flex gap-2">
+                            <a href="/requisitos/editar/{{ r.idRequisito }}" class="btn btn-warning btn-sm">
+                                <i class="fas fa-edit me-1"></i> Editar
+                            </a>
+                            <a href="/requisitos/eliminar/{{ r.idRequisito }}" class="btn btn-danger btn-sm"
+                                onclick="return confirm('¿Estás seguro de eliminar este requisito?')">
+                                <i class="fas fa-trash me-1"></i> Borrar
+                            </a>
+                        </div>
                     </td>
                 </tr>
                 {% else %}
                 <tr>
-                    <td colspan="6" class="text-center">No hay datos.</td>
+                    <td colspan="6" class="empty-state">
+                        <i class="fas fa-clipboard-list"></i>
+                        <div class="mt-3">No hay requisitos registrados</div>
+                        <a href="/requisitos/nuevo" class="btn btn-primary mt-3">
+                            <i class="fas fa-plus me-2"></i> Crear primer requisito
+                        </a>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
+        
+        {% if paginacion.totalPages > 0 %}
         <nav aria-label="Paginación" class="mt-3">
             <ul class="pagination justify-content-center">
-
                 <li class="page-item {% if paginacion.first %}disabled{% endif %}">
-                    <a class="page-link" href="/requisitos?page={{ paginacion.number - 1 }}">Anterior</a>
+                    <a class="page-link" href="/requisitos?page={{ paginacion.number - 1 }}">
+                        <i class="fas fa-chevron-left me-1"></i> Anterior
+                    </a>
                 </li>
-
                 <li class="page-item disabled">
                     <span class="page-link">
                         Página {{ paginacion.number + 1 }} de {{ paginacion.totalPages }}
                     </span>
                 </li>
-
                 <li class="page-item {% if paginacion.last %}disabled{% endif %}">
-                    <a class="page-link" href="/requisitos?page={{ paginacion.number + 1 }}">Siguiente</a>
+                    <a class="page-link" href="/requisitos?page={{ paginacion.number + 1 }}">
+                        Siguiente <i class="fas fa-chevron-right ms-1"></i>
+                    </a>
                 </li>
-
             </ul>
         </nav>
+        {% endif %}
+        
+        <div class="mt-4 text-center" style="color: var(--color-accent2); opacity: 0.7; font-size: 0.9rem;">
+            <i class="fas fa-info-circle me-1"></i>
+            Mostrando {{ paginacion.content|length }} de {{ paginacion.totalElements or 0 }} requisitos
+        </div>
     </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Confirmación mejorada para eliminar
+            const deleteButtons = document.querySelectorAll('.btn-danger');
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    const requisitoId = this.closest('tr').querySelector('td:first-child').textContent.trim();
+                    const requisitoNombre = this.closest('tr').querySelector('td:nth-child(2)').textContent.trim();
+                    
+                    if (!confirm(`¿Estás seguro de eliminar el requisito #${requisitoId}: "${requisitoNombre}"?\n\nEsta acción no se puede deshacer.`)) {
+                        e.preventDefault();
+                    }
+                });
+            });
+            
+            // Añadir efecto de pulso a las filas con prioridad alta
+            document.querySelectorAll('.prioridad-alta').forEach(badge => {
+                const row = badge.closest('tr');
+                if (row) {
+                    setInterval(() => {
+                        row.style.boxShadow = row.style.boxShadow 
+                            ? '' 
+                            : '0 0 0 2px rgba(255, 66, 66, 0.5)';
+                    }, 1000);
+                }
+            });
+        });
+    </script>
 </body>
 </html>

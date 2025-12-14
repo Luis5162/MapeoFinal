@@ -4,73 +4,376 @@
     <meta charset="UTF-8">
     <title>Lista de Diagramas</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --color-primary: #2a1142;
+            --color-dark: #1a0b29;
+            --color-accent1: #6eff8e;
+            --color-accent2: #a0ffb8;
+            --color-accent3: #ff8c42;
+            --color-accent4: #ff4242;
+            --color-info: #4287ff;
+            --color-secondary: #9b59b6;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--color-dark) 0%, var(--color-primary) 100%);
+            color: white;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 2rem 0;
+        }
+        
+        .container {
+            background: rgba(42, 17, 66, 0.85);
+            border-radius: 15px;
+            padding: 2rem;
+            border: 1px solid rgba(110, 255, 142, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+        
+        h2 {
+            color: var(--color-accent1);
+            font-weight: 700;
+            border-bottom: 3px solid var(--color-accent3);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .btn-primary {
+            background: var(--color-accent1);
+            border-color: var(--color-accent1);
+            color: #2a1142;
+            font-weight: 600;
+        }
+        
+        .btn-primary:hover {
+            background: var(--color-accent2);
+            border-color: var(--color-accent2);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(110, 255, 142, 0.3);
+            color: var(--color-accent2);
+            font-weight: 600;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: var(--color-accent1);
+        }
+        
+        .btn-warning {
+            background: var(--color-accent3);
+            border-color: var(--color-accent3);
+            color: #2a1142;
+            font-weight: 600;
+        }
+        
+        .btn-warning:hover {
+            background: #ff9f5e;
+            border-color: #ff9f5e;
+        }
+        
+        .btn-danger {
+            background: var(--color-accent4);
+            border-color: var(--color-accent4);
+            font-weight: 600;
+        }
+        
+        .btn-danger:hover {
+            background: #ff6b6b;
+            border-color: #ff6b6b;
+        }
+        
+        .table {
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+        }
+        
+        .table-dark {
+            background: rgba(26, 11, 41, 0.8) !important;
+        }
+        
+        .table-dark th {
+            color: var(--color-accent1);
+            border-color: rgba(110, 255, 142, 0.2);
+        }
+        
+        .table-striped > tbody > tr:nth-of-type(odd) {
+            background-color: rgba(110, 255, 142, 0.05);
+        }
+        
+        .table-bordered {
+            border-color: rgba(110, 255, 142, 0.2);
+        }
+        
+        .table-bordered th,
+        .table-bordered td {
+            border-color: rgba(110, 255, 142, 0.1);
+        }
+        
+        /* Badges para tipos de diagrama */
+        .badge-tipo {
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+        
+        .tipo-clases { background: linear-gradient(135deg, var(--color-info), #6b8cff); color: white; }
+        .tipo-secuencia { background: linear-gradient(135deg, #9b59b6, #bf6fdb); color: white; }
+        .tipo-actividad { background: linear-gradient(135deg, var(--color-accent3), #ff9f5e); color: #2a1142; }
+        .tipo-estados { background: linear-gradient(135deg, #2ecc71, #4cdb6d); color: #2a1142; }
+        .tipo-casos_de_uso { background: linear-gradient(135deg, #e74c3c, #ff6b6b); color: white; }
+        .tipo-componentes { background: linear-gradient(135deg, #3498db, #5dade2); color: white; }
+        .tipo-despliegue { background: linear-gradient(135deg, #1abc9c, #2cdbb5); color: #2a1142; }
+        .tipo-paquetes { background: linear-gradient(135deg, #f39c12, #ffb142); color: #2a1142; }
+        .tipo-arquitectura { background: linear-gradient(135deg, var(--color-accent1), #4cdb6d); color: #2a1142; }
+        
+        /* Badges para estados */
+        .badge-estado {
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+        
+        .estado-borrador {
+            background: linear-gradient(135deg, var(--color-accent3), #ff9f5e);
+            color: #2a1142;
+        }
+        
+        .estado-revision {
+            background: linear-gradient(135deg, var(--color-accent4), #ff6b6b);
+            color: white;
+        }
+        
+        .estado-aprobado {
+            background: linear-gradient(135deg, var(--color-info), #6b8cff);
+            color: white;
+        }
+        
+        .estado-finalizado {
+            background: linear-gradient(135deg, var(--color-accent1), #4cdb6d);
+            color: #2a1142;
+        }
+        
+        .proyecto-nombre {
+            background: rgba(66, 135, 255, 0.15);
+            border: 1px solid rgba(66, 135, 255, 0.3);
+            color: var(--color-info);
+            padding: 0.3rem 0.6rem;
+            border-radius: 8px;
+            font-weight: 500;
+            display: inline-block;
+        }
+        
+        .sin-asignar {
+            color: var(--color-accent2) !important;
+            opacity: 0.7;
+            font-style: italic;
+        }
+        
+        .pagination .page-link {
+            background-color: rgba(26, 11, 41, 0.7);
+            border-color: rgba(110, 255, 142, 0.2);
+            color: var(--color-accent2);
+        }
+        
+        .pagination .page-link:hover {
+            background-color: rgba(110, 255, 142, 0.1);
+            border-color: var(--color-accent1);
+            color: var(--color-accent1);
+        }
+        
+        .pagination .disabled .page-link {
+            background-color: rgba(26, 11, 41, 0.3);
+            color: rgba(110, 255, 142, 0.3);
+        }
+        
+        .page-item.active .page-link {
+            background-color: var(--color-accent1);
+            border-color: var(--color-accent1);
+            color: #2a1142;
+            font-weight: 600;
+        }
+        
+        .empty-state {
+            color: var(--color-accent2);
+            text-align: center;
+            padding: 3rem;
+        }
+        
+        .empty-state i {
+            font-size: 3rem;
+            opacity: 0.5;
+            margin-bottom: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .table-responsive {
+                overflow-x: auto;
+            }
+        }
+    </style>
 </head>
 <body class="p-4">
     <div class="container">
         <h2 class="mb-4">Diagramas Registrados</h2>
-        <a href="/diagramas/nuevo" class="btn btn-primary mb-3">Crear Diagrama</a>
-        <a href="/" class="btn btn-secondary mb-3">Volver</a>
+        <a href="/diagramas/nuevo" class="btn btn-primary mb-3">
+            <i class="fas fa-plus me-2"></i> Crear Diagrama
+        </a>
+        <a href="/" class="btn btn-secondary mb-3">
+            <i class="fas fa-arrow-left me-2"></i> Volver
+        </a>
 
-        <table class="table table-bordered table-striped shadow">
-            <thead class="table-dark">
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Tipo</th>
-                    <th>Estado</th>
-                    <th>ID Proyecto</th>
-                    <th>Acciones</th> </tr>
-            </thead>
-            <tbody>
-                {% for d in paginacion.content %}
-                <tr>
-                    <td>{{ d.idDiagrama }}</td>
-                    <td>{{ d.nombre }}</td>
-                    
-                    <td>
-                        <span class="badge bg-secondary">{{ d.tipoDiagrama }}</span>
-                    </td>
-                    
-                    <td>
-                        {% if d.estado == 'borrador' %}
-                            <span class="badge bg-warning text-dark">Borrador</span>
-                        {% elif d.estado == 'aprobado' or d.estado == 'finalizado' %}
-                            <span class="badge bg-success">Finalizado</span>
-                        {% else %}
-                            <span class="badge bg-info text-dark">{{ d.estado }}</span>
-                        {% endif %}
-                    </td>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped shadow">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Tipo</th>
+                        <th>Estado</th>
+                        <th>Proyecto</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for d in paginacion.content %}
+                    <tr>
+                        <td><strong>{{ d.idDiagrama }}</strong></td>
+                        <td>{{ d.nombre }}</td>
+                        
+                        <td>
+                            {% set tipo = d.tipoDiagrama or '' %}
+                            {% if tipo == 'clases' %}
+                                <span class="badge-tipo tipo-clases">
+                                    <i class="fas fa-cubes me-1"></i> Clases
+                                </span>
+                            {% elif tipo == 'secuencia' %}
+                                <span class="badge-tipo tipo-secuencia">
+                                    <i class="fas fa-exchange-alt me-1"></i> Secuencia
+                                </span>
+                            {% elif tipo == 'actividad' %}
+                                <span class="badge-tipo tipo-actividad">
+                                    <i class="fas fa-running me-1"></i> Actividad
+                                </span>
+                            {% elif tipo == 'estados' %}
+                                <span class="badge-tipo tipo-estados">
+                                    <i class="fas fa-sync-alt me-1"></i> Estados
+                                </span>
+                            {% elif tipo == 'casos_de_uso' %}
+                                <span class="badge-tipo tipo-casos_de_uso">
+                                    <i class="fas fa-users me-1"></i> Casos de Uso
+                                </span>
+                            {% elif tipo == 'componentes' %}
+                                <span class="badge-tipo tipo-componentes">
+                                    <i class="fas fa-puzzle-piece me-1"></i> Componentes
+                                </span>
+                            {% elif tipo == 'despliegue' %}
+                                <span class="badge-tipo tipo-despliegue">
+                                    <i class="fas fa-server me-1"></i> Despliegue
+                                </span>
+                            {% elif tipo == 'paquetes' %}
+                                <span class="badge-tipo tipo-paquetes">
+                                    <i class="fas fa-box me-1"></i> Paquetes
+                                </span>
+                            {% elif tipo == 'arquitectura' %}
+                                <span class="badge-tipo tipo-arquitectura">
+                                    <i class="fas fa-sitemap me-1"></i> Arquitectura
+                                </span>
+                            {% else %}
+                                <span class="badge-tipo" style="background: rgba(255,255,255,0.1); color: white;">
+                                    {{ tipo|title }}
+                                </span>
+                            {% endif %}
+                        </td>
+                        
+                        <td>
+                            {% set estado = d.estado or '' %}
+                            {% if estado == 'borrador' %}
+                                <span class="badge-estado estado-borrador">
+                                    <i class="fas fa-pencil-alt me-1"></i> Borrador
+                                </span>
+                            {% elif estado == 'revision' %}
+                                <span class="badge-estado estado-revision">
+                                    <i class="fas fa-search me-1"></i> En Revisión
+                                </span>
+                            {% elif estado == 'aprobado' %}
+                                <span class="badge-estado estado-aprobado">
+                                    <i class="fas fa-check-circle me-1"></i> Aprobado
+                                </span>
+                            {% elif estado == 'finalizado' %}
+                                <span class="badge-estado estado-finalizado">
+                                    <i class="fas fa-flag-checkered me-1"></i> Finalizado
+                                </span>
+                            {% else %}
+                                <span class="badge-estado" style="background: rgba(255,255,255,0.1); color: white;">
+                                    {{ estado|title }}
+                                </span>
+                            {% endif %}
+                        </td>
 
-                    <td>
-                        {% if d.proyecto %}
-                            {{ d.proyecto.nombre }}
-                        {% else %}
-                            <span class="text-muted">Sin Asignar</span>
-                        {% endif %}
-                    </td>
-                    
-                    <td>
-                        <a href="/diagramas/editar/{{ d.idDiagrama }}" class="btn btn-warning btn-sm">Editar</a>
-                        <a href="/diagramas/eliminar/{{ d.idDiagrama }}" 
-                           class="btn btn-danger btn-sm"
-                           onclick="return confirm('¿Estás seguro de eliminar este diagrama?');">
-                           Borrar
-                        </a>
-                    </td>
-                </tr>
-                {% else %}
-                <tr>
-                    <td colspan="6" class="text-center">No hay diagramas registrados.</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                        <td>
+                            {% if d.proyecto %}
+                                <span class="proyecto-nombre">
+                                    <i class="fas fa-project-diagram me-1"></i>
+                                    {{ d.proyecto.nombre }}
+                                </span>
+                            {% else %}
+                                <span class="sin-asignar">
+                                    <i class="fas fa-times-circle me-1"></i> Sin Asignar
+                                </span>
+                            {% endif %}
+                        </td>
+                        
+                        <td>
+                            <div class="d-flex gap-2">
+                                <a href="/diagramas/editar/{{ d.idDiagrama }}" class="btn btn-warning btn-sm">
+                                    <i class="fas fa-edit me-1"></i> Editar
+                                </a>
+                                <a href="/diagramas/eliminar/{{ d.idDiagrama }}" 
+                                   class="btn btn-danger btn-sm"
+                                   onclick="return confirm('¿Estás seguro de eliminar este diagrama?');">
+                                   <i class="fas fa-trash me-1"></i> Borrar
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="6" class="empty-state">
+                            <i class="fas fa-project-diagram"></i>
+                            <div class="mt-3">No hay diagramas registrados</div>
+                            <a href="/diagramas/nuevo" class="btn btn-primary mt-3">
+                                <i class="fas fa-plus me-2"></i> Crear primer diagrama
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
         
+        {% if paginacion.totalPages > 0 %}
         <nav aria-label="Paginación" class="mt-3">
             <ul class="pagination justify-content-center">
                 <li class="page-item {% if paginacion.first %}disabled{% endif %}">
-                    <a class="page-link" href="/diagramas?page={{ paginacion.number - 1 }}">Anterior</a>
+                    <a class="page-link" href="/diagramas?page={{ paginacion.number - 1 }}">
+                        <i class="fas fa-chevron-left me-1"></i> Anterior
+                    </a>
                 </li>
                 
                 <li class="page-item disabled">
@@ -80,10 +383,36 @@
                 </li>
                 
                 <li class="page-item {% if paginacion.last %}disabled{% endif %}">
-                    <a class="page-link" href="/diagramas?page={{ paginacion.number + 1 }}">Siguiente</a>
+                    <a class="page-link" href="/diagramas?page={{ paginacion.number + 1 }}">
+                        Siguiente <i class="fas fa-chevron-right ms-1"></i>
+                    </a>
                 </li>
             </ul>
         </nav>
+        {% endif %}
+        
+        <div class="mt-4 text-center" style="color: var(--color-accent2); opacity: 0.7; font-size: 0.9rem;">
+            <i class="fas fa-chart-pie me-1"></i>
+            Mostrando {{ paginacion.content|length }} de {{ paginacion.totalElements or 0 }} diagramas
+        </div>
     </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Confirmación mejorada para eliminar
+            const deleteButtons = document.querySelectorAll('.btn-danger');
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    const diagramaId = this.closest('tr').querySelector('td:first-child').textContent.trim();
+                    const diagramaNombre = this.closest('tr').querySelector('td:nth-child(2)').textContent.trim();
+                    
+                    if (!confirm(`¿Estás seguro de eliminar el diagrama #${diagramaId}: "${diagramaNombre}"?\n\nEsta acción no se puede deshacer.`)) {
+                        e.preventDefault();
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

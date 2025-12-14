@@ -1,86 +1,347 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <title>Editar Requisito</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --color-primary: #2a1142;
+            --color-dark: #1a0b29;
+            --color-accent1: #6eff8e;
+            --color-accent2: #a0ffb8;
+            --color-accent3: #ff8c42;
+            --color-accent4: #ff4242;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--color-dark) 0%, var(--color-primary) 100%);
+            color: white;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 2rem 0;
+        }
+        
+        .container {
+            max-width: 700px;
+        }
+        
+        .card {
+            background: rgba(42, 17, 66, 0.9);
+            border: 1px solid rgba(110, 255, 142, 0.3);
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--color-accent1), #4cdb6d);
+        }
+        
+        .card-header {
+            background: rgba(26, 11, 41, 0.95) !important;
+            border-bottom: 1px solid rgba(110, 255, 142, 0.3) !important;
+            padding: 1.5rem;
+        }
+        
+        .card-title {
+            color: var(--color-accent1);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 0;
+            text-shadow: 0 0 10px rgba(110, 255, 142, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .card-title::before {
+            content: "";
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background-color: var(--color-accent1);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--color-accent1);
+            animation: pulse 2s infinite;
+        }
+        
+        .card-body {
+            padding: 2rem;
+        }
+        
+        .form-label {
+            color: var(--color-accent2);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .form-control, .form-select, textarea.form-control {
+            background-color: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(110, 255, 142, 0.3);
+            color: white;
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus, .form-select:focus, textarea.form-control:focus {
+            background-color: rgba(255, 255, 255, 0.12);
+            border-color: var(--color-accent1);
+            box-shadow: 0 0 0 0.3rem rgba(110, 255, 142, 0.15);
+            color: white;
+        }
+        
+        .form-control.bg-light {
+            background-color: rgba(255, 255, 255, 0.05) !important;
+            color: rgba(255, 255, 255, 0.6);
+            border-color: rgba(110, 255, 142, 0.2);
+        }
+        
+        textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, var(--color-accent1), #4cdb6d);
+            border: none;
+            color: #2a1142;
+            font-weight: 700;
+            padding: 0.9rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .btn-success:hover {
+            background: linear-gradient(135deg, #4cdb6d, var(--color-accent1));
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(110, 255, 142, 0.3);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(110, 255, 142, 0.3);
+            color: var(--color-accent2);
+            font-weight: 600;
+            padding: 0.9rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: var(--color-accent1);
+            transform: translateY(-3px);
+        }
+        
+        .back-link {
+            color: var(--color-accent2);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            transition: color 0.3s ease;
+        }
+        
+        .back-link:hover {
+            color: var(--color-accent1);
+        }
+        
+        .priority-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-left: 0.5rem;
+        }
+        
+        .priority-alta {
+            background: linear-gradient(135deg, var(--color-accent4), #ff6b6b);
+            color: white;
+        }
+        
+        .priority-media {
+            background: linear-gradient(135deg, var(--color-accent3), #ff9f5e);
+            color: #2a1142;
+        }
+        
+        .priority-baja {
+            background: linear-gradient(135deg, #4287ff, #6b8cff);
+            color: white;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-left: 0.5rem;
+        }
+        
+        .status-activo {
+            background: linear-gradient(135deg, var(--color-accent1), #4cdb6d);
+            color: #2a1142;
+        }
+        
+        .status-pendiente {
+            background: linear-gradient(135deg, var(--color-accent3), #ff9f5e);
+            color: #2a1142;
+        }
+        
+        .status-finalizado {
+            background: linear-gradient(135deg, #4287ff, #6b8cff);
+            color: white;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .form-note {
+            color: var(--color-accent2);
+            opacity: 0.8;
+            font-size: 0.85rem;
+            margin-top: 1.5rem;
+            text-align: center;
+            padding: 0.5rem;
+            border-top: 1px solid rgba(110, 255, 142, 0.1);
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .card-body {
+                padding: 1.5rem;
+            }
+            
+            .row {
+                flex-direction: column;
+            }
+            
+            .col {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
-
 <body class="p-4">
-    <div class="container" style="max-width: 700px;">
+    <div class="container">
+        <a href="/requisitos" class="back-link">
+            <i class="fas fa-arrow-left me-2"></i> Volver al listado de requisitos
+        </a>
+        
         <div class="card shadow">
-            <div class="card-header bg-success text-white">
+            <div class="card-header">
                 <h3 class="card-title mb-0">Editar Requisito</h3>
             </div>
             <div class="card-body">
-
                 <form method="POST" action="/requisitos/editar/{{ requisito.idRequisito }}">
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label class="form-label">
+                                <i class="fas fa-hashtag"></i> ID Requisito
+                            </label>
+                            <input type="text" class="form-control bg-light" value="{{ requisito.idRequisito }}" readonly>
+                        </div>
+                        <div class="col">
+                            <label class="form-label">
+                                <i class="fas fa-barcode"></i> Código
+                            </label>
+                            <input type="text" name="codigo" class="form-control" value="{{ requisito.codigo }}" placeholder="Ej: REQ-001">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">
+                            <i class="fas fa-file-alt"></i> Nombre del Requisito
+                        </label>
+                        <input type="text" name="nombre" class="form-control" value="{{ requisito.nombre }}" required placeholder="Ingrese el nombre del requisito">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">
+                            <i class="fas fa-align-left"></i> Descripción
+                        </label>
+                        <textarea name="descripcion" class="form-control" rows="3" placeholder="Describa el requisito en detalle">{{ requisito.descripcion }}</textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">
+                            <i class="fas fa-user-edit"></i> Capturado Por
+                        </label>
+                        <input type="text" name="capturadoPor" class="form-control" value="{{ requisito.capturadoPor }}" placeholder="Nombre del responsable">
+                    </div>
 
                     <div class="row mb-3">
                         <div class="col">
-                            <label class="form-label">ID Requisito</label>
-                            <input type="text" class="form-control bg-light" value="{{ requisito.idRequisito }}"
-                                readonly>
-                        </div>
-                        <div class="col">
-                            <label class="form-label">Código</label>
-                            <input type="text" name="codigo" class="form-control" value="{{ requisito.codigo }}">
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">Nombre del Requisito</label>
-                        <input type="text" name="nombre" class="form-control" value="{{ requisito.nombre }}" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">Descripción</label>
-                        <textarea name="descripcion" class="form-control"
-                            rows="3">{{ requisito.descripcion }}</textarea>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">Capturado Por</label>
-                        <input type="text" name="capturadoPor" class="form-control"
-                            value="{{ requisito.capturadoPor }}">
-                    </div>
-
-                    <div class="row mb-3">
-                        <div class="col">
-                            <label class="form-label">Prioridad</label>
+                            <label class="form-label">
+                                <i class="fas fa-exclamation-triangle"></i> Prioridad
+                            </label>
                             <select name="prioridad" class="form-select">
-                                <option value="alta" {% if requisito.prioridad=='alta' or requisito.prioridad=='ALTA'
-                                    %}selected{% endif %}>Alta</option>
-
-                                <option value="media" {% if requisito.prioridad=='media' or requisito.prioridad=='MEDIA'
-                                    %}selected{% endif %}>Media</option>
-
-                                <option value="baja" {% if requisito.prioridad=='baja' or requisito.prioridad=='BAJA'
-                                    %}selected{% endif %}>Baja</option>
+                                <option value="alta" {% if requisito.prioridad=='alta' or requisito.prioridad=='ALTA' %}selected{% endif %}>
+                                    Alta <span class="priority-badge priority-alta">Urgente</span>
+                                </option>
+                                <option value="media" {% if requisito.prioridad=='media' or requisito.prioridad=='MEDIA' %}selected{% endif %}>
+                                    Media <span class="priority-badge priority-media">Normal</span>
+                                </option>
+                                <option value="baja" {% if requisito.prioridad=='baja' or requisito.prioridad=='BAJA' %}selected{% endif %}>
+                                    Baja <span class="priority-badge priority-baja">Baja</span>
+                                </option>
                             </select>
                         </div>
 
                         <div class="col">
-                            <label class="form-label">Estado</label>
+                            <label class="form-label">
+                                <i class="fas fa-tasks"></i> Estado
+                            </label>
                             <select name="estado" class="form-select">
-                                <option value="activo" {% if requisito.estado=='activo' %}selected{% endif %}>Activo
+                                <option value="activo" {% if requisito.estado=='activo' %}selected{% endif %}>
+                                    Activo <span class="status-badge status-activo">En progreso</span>
                                 </option>
                                 <option value="pendiente" {% if requisito.estado=='pendiente' %}selected{% endif %}>
-                                    Pendiente</option>
+                                    Pendiente <span class="status-badge status-pendiente">Esperando</span>
+                                </option>
                                 <option value="finalizado" {% if requisito.estado=='finalizado' %}selected{% endif %}>
-                                    Finalizado</option>
+                                    Finalizado <span class="status-badge status-finalizado">Completado</span>
+                                </option>
                             </select>
                         </div>
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">Proyecto Asociado</label>
+                        <label class="form-label">
+                            <i class="fas fa-project-diagram"></i> Proyecto Asociado
+                        </label>
                         <select name="proyecto_id" class="form-select" required>
                             <option value="">Seleccione Proyecto...</option>
                             {% for p in lista_proyectos %}
-                            <option value="{{ p.idProyecto }}" {% if requisito.proyecto and
-                                p.idProyecto==requisito.proyecto.idProyecto %}selected{% endif %}>
+                            <option value="{{ p.idProyecto }}" {% if requisito.proyecto and p.idProyecto==requisito.proyecto.idProyecto %}selected{% endif %}>
                                 {{ p.nombre }}
                             </option>
                             {% endfor %}
@@ -88,14 +349,138 @@
                     </div>
 
                     <div class="d-grid gap-2">
-                        <button type="submit" class="btn btn-success">Guardar Cambios</button>
-                        <a href="/requisitos" class="btn btn-secondary">Cancelar</a>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-save me-2"></i> Guardar Cambios
+                        </button>
+                        <a href="/requisitos" class="btn btn-secondary">
+                            <i class="fas fa-times me-2"></i> Cancelar
+                        </a>
+                    </div>
+                    
+                    <div class="form-note">
+                        <i class="fas fa-info-circle me-1"></i>
+                        Complete todos los campos obligatorios
                     </div>
                 </form>
-
             </div>
         </div>
     </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('form');
+            const nombreInput = document.querySelector('input[name="nombre"]');
+            const proyectoSelect = document.querySelector('select[name="proyecto_id"]');
+            
+            // Actualizar visualización de opciones seleccionadas
+            function updateSelectDisplay() {
+                document.querySelectorAll('select').forEach(select => {
+                    select.addEventListener('change', function() {
+                        // Remover clase de selección previa
+                        this.querySelectorAll('option').forEach(opt => {
+                            opt.classList.remove('selected-option');
+                        });
+                        // Añadir clase a la opción seleccionada
+                        if (this.selectedOptions[0]) {
+                            this.selectedOptions[0].classList.add('selected-option');
+                        }
+                    });
+                    
+                    // Disparar evento change inicial
+                    if (select.value) {
+                        select.dispatchEvent(new Event('change'));
+                    }
+                });
+            }
+            
+            // Validación del formulario
+            form.addEventListener('submit', function(e) {
+                let isValid = true;
+                let errorMessage = '';
+                
+                if (!nombreInput.value.trim()) {
+                    isValid = false;
+                    errorMessage = 'El nombre del requisito es obligatorio';
+                    nombreInput.style.borderColor = 'var(--color-accent4)';
+                }
+                
+                if (!proyectoSelect.value) {
+                    isValid = false;
+                    errorMessage = errorMessage ? errorMessage + ' y debe seleccionar un proyecto' : 'Debe seleccionar un proyecto';
+                    proyectoSelect.style.borderColor = 'var(--color-accent4)';
+                }
+                
+                if (!isValid) {
+                    e.preventDefault();
+                    showError(errorMessage);
+                }
+            });
+            
+            // Restaurar color al corregir
+            nombreInput.addEventListener('input', function() {
+                this.style.borderColor = 'rgba(110, 255, 142, 0.3)';
+            });
+            
+            proyectoSelect.addEventListener('change', function() {
+                this.style.borderColor = 'rgba(110, 255, 142, 0.3)';
+            });
+            
+            function showError(message) {
+                const existingError = document.querySelector('.form-error');
+                if (existingError) existingError.remove();
+                
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'form-error alert mt-3';
+                errorDiv.innerHTML = `
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-exclamation-triangle me-2" style="color: var(--color-accent4);"></i>
+                        <span style="color: var(--color-accent2);">${message}</span>
+                    </div>
+                `;
+                
+                // Estilos para el mensaje de error
+                errorDiv.style.background = 'rgba(255, 66, 66, 0.1)';
+                errorDiv.style.border = '1px solid var(--color-accent4)';
+                errorDiv.style.borderRadius = '8px';
+                errorDiv.style.padding = '1rem';
+                
+                form.parentNode.insertBefore(errorDiv, form.nextSibling);
+                
+                setTimeout(() => {
+                    if (errorDiv.parentNode) {
+                        errorDiv.parentNode.removeChild(errorDiv);
+                    }
+                }, 5000);
+            }
+            
+            updateSelectDisplay();
+            
+            // Añadir contador de caracteres para la descripción
+            const textarea = document.querySelector('textarea[name="descripcion"]');
+            if (textarea) {
+                const charCount = document.createElement('div');
+                charCount.className = 'text-end mt-1';
+                charCount.style.color = 'var(--color-accent2)';
+                charCount.style.fontSize = '0.8rem';
+                charCount.innerHTML = `Caracteres: <span id="charCount">${textarea.value.length}</span>/1000`;
+                
+                textarea.parentNode.appendChild(charCount);
+                
+                textarea.addEventListener('input', function() {
+                    document.getElementById('charCount').textContent = this.value.length;
+                    
+                    // Cambiar color si se acerca al límite
+                    if (this.value.length > 900) {
+                        charCount.style.color = 'var(--color-accent4)';
+                    } else if (this.value.length > 700) {
+                        charCount.style.color = 'var(--color-accent3)';
+                    } else {
+                        charCount.style.color = 'var(--color-accent2)';
+                    }
+                });
+            }
+        });
+    </script>
 </body>
-
 </html>

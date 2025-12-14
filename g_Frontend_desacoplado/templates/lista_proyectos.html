@@ -4,7 +4,171 @@
     <meta charset="UTF-8">
     <title>Proyectos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --color-primary: #2a1142;
+            --color-dark: #1a0b29;
+            --color-accent1: #6eff8e;
+            --color-accent2: #a0ffb8;
+            --color-accent3: #ff8c42;
+            --color-accent4: #ff4242;
+            --color-info: #4287ff;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--color-dark) 0%, var(--color-primary) 100%);
+            color: white;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 2rem 0;
+        }
+        
+        .container {
+            background: rgba(42, 17, 66, 0.85);
+            border-radius: 15px;
+            padding: 2rem;
+            border: 1px solid rgba(110, 255, 142, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+        
+        h2 {
+            color: var(--color-accent1);
+            font-weight: 700;
+            border-bottom: 3px solid var(--color-accent3);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .btn-primary {
+            background: var(--color-accent1);
+            border-color: var(--color-accent1);
+            color: #2a1142;
+            font-weight: 600;
+        }
+        
+        .btn-primary:hover {
+            background: var(--color-accent2);
+            border-color: var(--color-accent2);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(110, 255, 142, 0.3);
+            color: var(--color-accent2);
+            font-weight: 600;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: var(--color-accent1);
+        }
+        
+        .btn-warning {
+            background: var(--color-accent3);
+            border-color: var(--color-accent3);
+            color: #2a1142;
+            font-weight: 600;
+        }
+        
+        .btn-warning:hover {
+            background: #ff9f5e;
+            border-color: #ff9f5e;
+        }
+        
+        .btn-danger {
+            background: var(--color-accent4);
+            border-color: var(--color-accent4);
+            font-weight: 600;
+        }
+        
+        .btn-danger:hover {
+            background: #ff6b6b;
+            border-color: #ff6b6b;
+        }
+        
+        .alert-info {
+            background: rgba(66, 135, 255, 0.1);
+            border-color: rgba(66, 135, 255, 0.3);
+            color: var(--color-accent2);
+        }
+        
+        .card {
+            background: rgba(26, 11, 41, 0.7);
+            border: 1px solid rgba(110, 255, 142, 0.2);
+            border-radius: 10px;
+        }
+        
+        .table {
+            color: white;
+            margin-bottom: 0;
+        }
+        
+        .table-dark {
+            background: rgba(26, 11, 41, 0.9) !important;
+        }
+        
+        .table-dark th {
+            color: var(--color-accent1);
+            border-color: rgba(110, 255, 142, 0.2);
+        }
+        
+        .table-hover tbody tr:hover {
+            background-color: rgba(110, 255, 142, 0.1);
+        }
+        
+        .table-bordered th,
+        .table-bordered td {
+            border-color: rgba(110, 255, 142, 0.1);
+        }
+        
+        .badge {
+            font-weight: 600;
+        }
+        
+        .bg-success {
+            background-color: var(--color-accent1) !important;
+            color: #2a1142;
+        }
+        
+        .bg-danger {
+            background-color: var(--color-accent4) !important;
+        }
+        
+        .bg-info {
+            background-color: var(--color-info) !important;
+            color: white;
+        }
+        
+        .text-muted {
+            color: var(--color-accent2) !important;
+            opacity: 0.8;
+        }
+        
+        .pagination .page-link {
+            background-color: rgba(26, 11, 41, 0.7);
+            border-color: rgba(110, 255, 142, 0.2);
+            color: var(--color-accent2);
+        }
+        
+        .pagination .page-link:hover {
+            background-color: rgba(110, 255, 142, 0.1);
+            border-color: var(--color-accent1);
+            color: var(--color-accent1);
+        }
+        
+        .pagination .disabled .page-link {
+            background-color: rgba(26, 11, 41, 0.3);
+            color: rgba(110, 255, 142, 0.3);
+        }
+        
+        .page-item.active .page-link {
+            background-color: var(--color-accent1);
+            border-color: var(--color-accent1);
+            color: #2a1142;
+            font-weight: 600;
+        }
+    </style>
 </head>
 <body class="p-4">
     <div class="container">
@@ -46,7 +210,7 @@
                                 {% endif %}
                             </td>
                             <td>
-                                <span class="badge bg-info text-dark">
+                                <span class="badge bg-info">
                                     {{ p.empresa_id_real }}
                                 </span>
                                 <small class="text-muted">
@@ -89,5 +253,7 @@
             </ul>
         </nav>
     </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

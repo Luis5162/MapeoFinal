@@ -1,38 +1,286 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
-    <title>Gestión de Requisitos</title>
+    <title>Sistema Gestor de Requisitos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --color-primary: #2a1142;
+            --color-dark: #1a0b29;
+            --color-accent1: #6eff8e;
+            --color-accent2: #a0ffb8;
+            --color-accent3: #ff8c42;
+            --color-accent4: #ff4242;
+            --color-light: #f0f0f0;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--color-dark) 0%, var(--color-primary) 100%);
+            color: white;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .container {
+            padding-top: 2rem;
+        }
+        
+        .header-title {
+            color: var(--color-accent1);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(110, 255, 142, 0.5);
+            margin-bottom: 3rem;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid var(--color-accent3);
+            position: relative;
+        }
+        
+        .sys-card {
+            background: rgba(42, 17, 66, 0.8);
+            border: 1px solid rgba(110, 255, 142, 0.3);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 2rem;
+            height: 180px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+        }
+        
+        .sys-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--color-accent3), var(--color-accent1));
+        }
+        
+        .sys-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(110, 255, 142, 0.3);
+            border-color: var(--color-accent1);
+        }
+        
+        .sys-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--color-accent1);
+            transition: all 0.3s ease;
+        }
+        
+        .sys-card:hover .sys-icon {
+            transform: scale(1.2);
+            color: var(--color-accent2);
+            text-shadow: 0 0 15px rgba(110, 255, 142, 0.7);
+        }
+        
+        .sys-card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: white;
+            text-align: center;
+        }
+        
+        .sys-card-subtitle {
+            font-size: 0.9rem;
+            color: var(--color-accent2);
+            text-align: center;
+            opacity: 0.8;
+            margin-top: 0.5rem;
+        }
+        
+        .card-empresas {
+            border-top-color: var(--color-accent1);
+        }
+        
+        .card-proyectos {
+            border-top-color: var(--color-accent3);
+        }
+        
+        .card-requisitos {
+            border-top-color: var(--color-accent4);
+        }
+        
+        .card-diagramas {
+            border-top-color: #4287ff;
+        }
+        
+        .footer-text {
+            margin-top: 3rem;
+            color: var(--color-accent2);
+            font-size: 0.9rem;
+            opacity: 0.7;
+            text-align: center;
+            padding: 1rem;
+            border-top: 1px solid rgba(110, 255, 142, 0.2);
+        }
+        
+        .system-status {
+            background: rgba(26, 11, 41, 0.7);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-top: 2rem;
+            border: 1px solid rgba(110, 255, 142, 0.2);
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .status-online {
+            background-color: var(--color-accent1);
+            box-shadow: 0 0 10px var(--color-accent1);
+        }
+        
+        .status-text {
+            color: var(--color-accent2);
+        }
+        
+        @media (max-width: 768px) {
+            .sys-card {
+                height: 150px;
+                margin-bottom: 1rem;
+            }
+            
+            .header-title {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
 </head>
-
-<body class="bg-light p-5">
-    <div class="container text-center">
-        <h1 class="mb-5">Sistema Gestor (Python + Java)</h1>
-
+<body>
+    <div class="container">
+        <h1 class="header-title text-center">Sistema Gestor de Requisitos</h1>
+        <p class="text-center mb-5" style="color: #a0a0ff;">Sistema integrado Python + Java</p>
+        
         <div class="row">
-            <div class="col-md-3">
-                <a href="/empresas" class="btn btn-primary w-100 p-4">🏢 Empresas</a>
-            </div>
-            <div class="col-md-3">
-                <a href="/proyectos" class="btn btn-success w-100 p-4">🚀 Proyectos</a>
-            </div>
-            <div class="col-md-3">
-                <a href="/requisitos" class="btn btn-warning w-100 p-4  text-dark">
-                    📋 Requisitos
-
+            <!-- Empresas -->
+            <div class="col-lg-3 col-md-6 mb-4">
+                <a href="/empresas" class="sys-card card-empresas">
+                    <div class="sys-icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <div class="sys-card-title">EMPRESAS</div>
+                    <div class="sys-card-subtitle">Gestión corporativa</div>
                 </a>
             </div>
-
-            <div class="col-md-3">
-                <a href="/diagramas" class="btn btn-info w-100 p-4  text-white">
-                    📊 Diagramas
-
+            
+            <!-- Proyectos -->
+            <div class="col-lg-3 col-md-6 mb-4">
+                <a href="/proyectos" class="sys-card card-proyectos">
+                    <div class="sys-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <div class="sys-card-title">PROYECTOS</div>
+                    <div class="sys-card-subtitle">Control de proyectos</div>
+                </a>
+            </div>
+            
+            <!-- Requisitos -->
+            <div class="col-lg-3 col-md-6 mb-4">
+                <a href="/requisitos" class="sys-card card-requisitos">
+                    <div class="sys-icon">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <div class="sys-card-title">REQUISITOS</div>
+                    <div class="sys-card-subtitle">Gestión de especificaciones</div>
+                </a>
+            </div>
+            
+            <!-- Diagramas -->
+            <div class="col-lg-3 col-md-6 mb-4">
+                <a href="/diagramas" class="sys-card card-diagramas">
+                    <div class="sys-icon">
+                        <i class="fas fa-project-diagram"></i>
+                    </div>
+                    <div class="sys-card-title">DIAGRAMAS</div>
+                    <div class="sys-card-subtitle">Visualización de arquitectura</div>
                 </a>
             </div>
         </div>
+        
+        <div class="row">
+            <div class="col-12">
+                <div class="system-status">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5 style="color: var(--color-accent1);">
+                                <span class="status-indicator status-online"></span>
+                                Estado del Sistema
+                            </h5>
+                            <p class="status-text">
+                                <i class="fas fa-server me-2"></i>
+                                Servidor Python: <strong>Online</strong>
+                            </p>
+                            <p class="status-text">
+                                <i class="fas fa-database me-2"></i>
+                                Servidor Java: <strong>Online</strong>
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <h5 style="color: var(--color-accent1);">
+                                <i class="fas fa-chart-line me-2"></i>
+                                Métricas del Sistema
+                            </h5>
+                            <p class="status-text">
+                                <i class="fas fa-building me-2"></i>
+                                Empresas registradas: <strong>12</strong>
+                            </p>
+                            <p class="status-text">
+                                <i class="fas fa-project-diagram me-2"></i>
+                                Proyectos activos: <strong>7</strong>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-text">
+            <i class="fas fa-code me-1"></i> Sistema Gestor v2.1 | Python + Java
+        </div>
     </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Efectos interactivos adicionales
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.sys-card');
+            
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    const icon = this.querySelector('.sys-icon');
+                    if (icon) icon.style.transform = 'scale(1.2) rotate(5deg)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    const icon = this.querySelector('.sys-icon');
+                    if (icon) icon.style.transform = 'scale(1) rotate(0deg)';
+                });
+            });
+            
+            // Efecto de parpadeo en el indicador de estado
+            const statusIndicator = document.querySelector('.status-indicator');
+            if (statusIndicator) {
+                setInterval(() => {
+                    statusIndicator.style.opacity = statusIndicator.style.opacity === '0.7' ? '1' : '0.7';
+                }, 1000);
+            }
+        });
+    </script>
 </body>
-
 </html>
